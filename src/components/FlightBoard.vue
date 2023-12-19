@@ -4,9 +4,11 @@ import { onMounted } from "vue";
 import useFlightData from "../composables/useFlightData"
 const { allDepartures, fetchData, loading, error } = useFlightData();
 
-onMounted(() => {
-  fetchData();
-});
+// onMounted(async () => {
+  
+// });
+
+await fetchData();
 
 
 

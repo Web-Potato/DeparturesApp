@@ -7,6 +7,7 @@ export default function useFlightData() {
     const error = ref(null);
     
     const fetchData = async() => {
+        return new Promise(async (resolve, reject) => {
             try {
                 loading.value = true;
 
@@ -19,11 +20,15 @@ export default function useFlightData() {
                     ...flight,
                     borderColor: getBorderColor(flight.status)
                 }));
+                resolve();
             } catch (e) {
+                console.log("Error fetching data:", e);
                 error.value = e;
+                reject(e);
             } finally {
                 loading.value = false;
             }
+        });
     };
 
     // Function to determine the border color based on status
@@ -42,11 +47,6 @@ export default function useFlightData() {
             return "#cecaca";
         }
     };
-
-    // allDepartures.value = res.data.allDepartures.map(flight => ({
-    //     ...flight,
-    //     borderColor: getBorderColor(flight.status)
-    // }));
 
     return {
         allDepartures,

@@ -4,6 +4,8 @@ import FlightBoard from "./components/FlightBoard.vue"
 import Fallback from "./components/Fallback.vue"
 import FlightStatusForm from "./components/FlightStatusForm.vue"
 
+
+
 </script>
 
 <template>
