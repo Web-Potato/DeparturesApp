@@ -36,17 +36,21 @@ export default function useFlightData() {
     // Function to determine the border colour based on allDepartures.status
     const getBorderColor = (status) => {
         if (status.includes("Departed")) {
-            return "#d67b27";
+            return "#D67B27";
         } else if (status.includes("Go to Gate")) {
-            return "#3677f5";
+            return "#3677F5";
         } else if (status.includes("Wait in Lounge")) {
-            return "#1ea945";
+            return "#1EA945";
         } else if (status.includes("Final Call")) {
-            return "#ea1e1e";
+            return "#EA1E1E";
+        } else if (status.includes("Cancelled")) {
+            return "#CECACA";
         } else if (status.includes("Scheduled") || status.includes("Departing at")) {
-            return "#f5d836";
+            return "#F5D836";
+        } else if (status.includes("Delayed") || status.includes("Diverted")) {
+            return "#5F0F40";
         } else {
-            return "#cecaca";
+            return "#52D3D8";
         }
     };
 
