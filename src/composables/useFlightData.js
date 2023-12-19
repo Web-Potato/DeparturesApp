@@ -50,11 +50,23 @@ export default function useFlightData() {
         }
     };
 
+    // for changing status manually
+    const updateFlightStatus = (flightNumber, newStatus) => {
+        const flightIndex = allDepartures.value.findIndex(flight => flight.flightNumber === flightNumber);
+        if (flightIndex !== -1) {
+            allDepartures.value[flightIndex].status = newStatus;
+            allDepartures.value[flightIndex].borderColor = getBorderColor(newStatus);
+        }
+    };
+
+    // end of changing status manually
+
     return {
         allDepartures,
         loading,
         error,
-        fetchData
+        fetchData,
+        updateFlightStatus
     };
 
 }

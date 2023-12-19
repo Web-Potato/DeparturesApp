@@ -1,14 +1,19 @@
 <script setup>
 import FlightCard from "./FlightCard.vue"
 import { defineProps, defineEmits } from "vue";
-import useFlightData from "../composables/useFlightData"
-const { allDepartures, fetchData, loading, error } = useFlightData();
+// import useFlightData from "../composables/useFlightData"
+// const { allDepartures, fetchData, loading, error } = useFlightData();
 const emits = defineEmits(['error']);
 
-//If error exists its emitted to the App.vue
-await fetchData().catch(e => {
-    emits('error', e);
+//defining prop from App.vue with allDepartures
+const props = defineProps({
+  allDepartures: Array
 });
+
+//If error exists its emitted to the App.vue
+// await fetchData().catch(e => {
+//     emits('error', e);
+// });
 
 
 
@@ -35,7 +40,7 @@ const formatTime = (time) => {
         <div class="flightCard-container">
             <!-- loading of component and passing props to it with data -->
             <FlightCard 
-                v-for="flight in allDepartures" 
+                v-for="flight in props.allDepartures" 
                 :key="flight.flightNumber"
                 :time="formatTime(flight.scheduledDepartureDateTime)"
                 :city="flight.arrivalAirport.cityName"

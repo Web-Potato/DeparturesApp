@@ -1,11 +1,31 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import Sign from "./components/Sign.vue"
 import FlightBoard from "./components/FlightBoard.vue"
 import Fallback from "./components/Fallback.vue"
 // import FlightStatusForm from "./components/FlightStatusForm.vue"
 import Error from "./components/Error.vue"
 
+//for manually changed status
+import useFlightData from "./composables/useFlightData"
+const { fetchData, updateFlightStatus, allDepartures } = useFlightData();
+const selectedFlightNumber = ref('');
+
+const handleFormSubmit = () => {
+  updateFlightStatus(selectedFlightNumber.value, selectedStatus.value);
+};
+  //to mount data
+  onMounted(async () => {
+  try {
+    await fetchData();
+  } catch (error) {
+    console.error(error);
+    hasError.value = true;
+    errorMessage.value = error.message || "An unknown error occurred";
+  }
+});
+
+// end of manually changed status
 const hasError = ref(false);
 const errorMessage = ref("");
 
@@ -26,8 +46,8 @@ const selectedStatus = ref('');
       <Sign />
       <Suspense>
         <template #default>
-          <!-- if error occurs while data is loaded from API, it trigger error handler -->
-          <FlightBoard @error="handleError"/> 
+          <!-- passing allDepartures as a prop to FlightBoard / if error occurs while data is loaded from API, it trigger error handler -->
+          <FlightBoard :all-departures="allDepartures" @error="handleError"/>
         </template>
         <template #fallback>
           <!-- Fallback component shows while data is being fetched -->
@@ -38,13 +58,19 @@ const selectedStatus = ref('');
       <Error v-if="hasError" :message="errorMessage"/>
       <!-- <FlightStatusForm /> -->
       <div class="form-container">
-        <form>
+        
+        <form @submit.prevent="handleFormSubmit">
           <h2>Flight Status Form</h2>
           <div class="flight-select">
-              <select name="flight-selection" id="flight-selection">
+
+              <select name="flight-selection" id="flight-selection" v-model="selectedFlightNumber">
                   <option value="">select a flight</option>
+                  <option v-for="flight in allDepartures" :key="flight.flightNumber" :value="flight.flightNumber">
+                    {{ flight.flightNumber }}
+                  </option>
                   <option></option>
               </select>
+
           </div>
           <div class="form-radio">
             <h2>Edit Flight Details</h2>
@@ -74,6 +100,7 @@ const selectedStatus = ref('');
               <input type="text" id="free-text-input" :disabled="selectedStatus !== 'free-text'">
             </div>
           </div>
+          <button>Apply Changes</button>
         </form>
       </div>
     </div>
