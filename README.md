@@ -1,14 +1,16 @@
 # DeparturesApp
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+DeparturesApp is a Vue.js-based application designed to show real-time departure information, making it easier for users to track flight statuses, times, and other details.
 
 ## Customize configuration
 
 See [Vite Configuration Reference](https://vitejs.dev/config/).
+
+## Features
+
+**Real-Time Flight Information**: Displays up-to-date departure details.
+**Responsive Design**: Adapts seamlessly to various screen sizes.
+**Status Highlighting**: Color-codes flights based on their status for easy identification.
 
 ## Project Setup
 
