@@ -5,6 +5,7 @@ import useFlightData from "../composables/useFlightData"
 const { allDepartures, fetchData, loading, error } = useFlightData();
 const emits = defineEmits(['error']);
 
+//If error exists its emitted to the App.vue
 await fetchData().catch(e => {
     emits('error', e);
 });
@@ -22,7 +23,6 @@ const formatTime = (time) => {
 </script>
 
 <template>
-
     <div class="board-container">
         <div class="table-header">
             <p>Departure time</p>
@@ -32,8 +32,8 @@ const formatTime = (time) => {
             <p>Gate</p>
             <p>Status</p>
         </div>
-        
         <div class="flightCard-container">
+            <!-- loading of component and passing props to it with data -->
             <FlightCard 
                 v-for="flight in allDepartures" 
                 :key="flight.flightNumber"
@@ -55,7 +55,8 @@ const formatTime = (time) => {
         display: flex;
         flex-direction: column;
         width: 70%;
-        height: 800px;
+        min-height: 50px;
+        max-height: 800px;
         padding: 15px 0;
         background: rgb(71,71,71);
         background: linear-gradient(90deg, rgba(71,71,71,1) 0%, rgba(0,0,0,1) 99%);
@@ -113,7 +114,7 @@ const formatTime = (time) => {
     
     @media (max-width: 1200px) { 
         .table-header {
-            padding: 0 3%;
+            padding: 0 2%;
         }
         .table-header p {
             font-size: 1rem;
@@ -123,7 +124,7 @@ const formatTime = (time) => {
     @media (max-width: 1400px) { 
         
         .table-header {
-            padding: 0 3%;
+            padding: 0 2%;
             height: 56px;
         }
         .table-header p {

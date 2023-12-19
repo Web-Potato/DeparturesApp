@@ -21,7 +21,7 @@ const props = defineProps({
     flex-direction: column;
     -ms-flex-item-align: start;
     width: 70%;
-    height: 800px;
+    height: 710px;
     padding: 15px 0;
     background: rgb(71,71,71);
     background: linear-gradient(90deg, rgba(71,71,71,1) 0%, rgba(0,0,0,1) 99%);

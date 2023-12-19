@@ -9,6 +9,7 @@ import Error from "./components/Error.vue"
 const hasError = ref(false);
 const errorMessage = ref("");
 
+//Error handler that will
 const handleError = (error) => {
   console.error(error);
   hasError.value = true;
@@ -24,12 +25,15 @@ const handleError = (error) => {
       <Sign />
       <Suspense>
         <template #default>
+          <!-- If error occurs while data is loaded from API, it triggers error handler -->
           <FlightBoard @error="handleError"/> 
         </template>
         <template #fallback>
+          <!-- Fallback component shows while data is being fetched -->
           <Fallback />
         </template>
       </Suspense>
+      <!-- Show error component if error occurs, error message passed as a prop to component -->
       <Error v-if="hasError" :message="errorMessage"/>
       <FlightStatusForm />
     </div>

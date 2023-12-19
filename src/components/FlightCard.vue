@@ -50,7 +50,7 @@ const { time, city, code, airline, gate, status, borderColor} = defineProps([
         grid-template-columns: 2fr 2fr 1fr 3fr 1fr 3fr; 
         gap: 0px 10px; 
         align-items: center;
-        padding: 0 1% 0 4%;
+        padding: 0 1% 0 2%;
 
     }
     .card p {
@@ -152,7 +152,7 @@ const { time, city, code, airline, gate, status, borderColor} = defineProps([
 
     @media (max-width: 1600px) { 
         .card {
-            padding: 0 3%;
+            padding: 0 2%;
         }
         .card p {
             font-size: 1.1rem;

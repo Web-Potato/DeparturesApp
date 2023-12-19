@@ -1,6 +1,7 @@
 import { ref } from "vue";
 import axios from "axios";
 
+//Function to get data from API
 export default function useFlightData() {
     const allDepartures = ref([]);
     const loading = ref(false);
@@ -11,13 +12,14 @@ export default function useFlightData() {
             try {
                 loading.value = true;
 
-                // const res = await axios.get("https://6315ae3e5b85ba9b11e4cb85.mockapi.io/departures/Flightdata");
-                const res = await axios.get("https://b4a042cf-25ec-4e21-abb8-a67f5191582c.mock.pstmn.io/departuress"); //postman test api
+                // const res = await axios.get("https://6315ae3e5b85ba9b11e4cb85.mockapi.io/departures/Flightdata"); // api from task
+                const res = await axios.get("https://b4a042cf-25ec-4e21-abb8-a67f5191582c.mock.pstmn.io/departures"); //postman test api
                 allDepartures.value = res.data.allDepartures;
-                // console.log(res.data)
+                console.log(res.data)
 
                 allDepartures.value = res.data.allDepartures.map(flight => ({
                     ...flight,
+                    //change colours of border on status
                     borderColor: getBorderColor(flight.status)
                 }));
                 resolve();
@@ -31,7 +33,7 @@ export default function useFlightData() {
         });
     };
 
-    // Function to determine the border color based on status
+    // Function to determine the border colour based on allDepartures.status
     const getBorderColor = (status) => {
         if (status.includes("Departed")) {
             return "#d67b27";
