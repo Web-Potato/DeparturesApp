@@ -6,13 +6,9 @@
     <div class="form-container">
         <h2>Flight Status Form</h2>
         <div class="flight-select">
-            <label for="flight-selection">Select a flight</label>
             <select name="flight-selection" id="flight-selection">
                 <option value="">select a flight</option>
-                <option value="">1</option>
-                <option value="">3</option>
-                <option value="">4</option>
-                <option value="">5</option>
+                <option></option>
             </select>
         </div>
     </div>
