@@ -1,14 +1,13 @@
 <script setup>
 import FlightCard from "./FlightCard.vue"
-import { onMounted } from "vue";
+import { defineProps, defineEmits } from "vue";
 import useFlightData from "../composables/useFlightData"
 const { allDepartures, fetchData, loading, error } = useFlightData();
+const emits = defineEmits(['error']);
 
-// onMounted(async () => {
-  
-// });
-
-await fetchData();
+await fetchData().catch(e => {
+    emits('error', e);
+});
 
 
 
@@ -34,17 +33,19 @@ const formatTime = (time) => {
             <p>Status</p>
         </div>
         
-        <FlightCard 
-            v-for="flight in allDepartures" 
-            :key="flight.flightNumber"
-            :time="formatTime(flight.scheduledDepartureDateTime)"
-            :city="flight.arrivalAirport.cityName"
-            :code="flight.arrivalAirport.code"
-            :airline="flight.airline.name"
-            :gate="flight.departureGate ? flight.departureGate.number : 'N/A'"
-            :status="flight.status"
-            :borderColor="flight.borderColor"
-        />
+        <div class="flightCard-container">
+            <FlightCard 
+                v-for="flight in allDepartures" 
+                :key="flight.flightNumber"
+                :time="formatTime(flight.scheduledDepartureDateTime)"
+                :city="flight.arrivalAirport.cityName"
+                :code="flight.arrivalAirport.code"
+                :airline="flight.airline.name"
+                :gate="flight.departureGate ? flight.departureGate.number : 'N/A'"
+                :status="flight.status"
+                :borderColor="flight.borderColor"
+            />
+        </div>
     </div>
 
 </template>
@@ -55,10 +56,14 @@ const formatTime = (time) => {
         flex-direction: column;
         width: 70%;
         height: 800px;
-        overflow: scroll;
-        padding: 30px 0;
+        padding: 15px 0;
         background: rgb(71,71,71);
         background: linear-gradient(90deg, rgba(71,71,71,1) 0%, rgba(0,0,0,1) 99%);
+    }
+
+    .flightCard-container {
+        margin-top: 5px;
+        overflow: scroll;
     }
 
     .table-header {

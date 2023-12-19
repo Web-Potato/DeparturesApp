@@ -12,7 +12,7 @@ export default function useFlightData() {
                 loading.value = true;
 
                 // const res = await axios.get("https://6315ae3e5b85ba9b11e4cb85.mockapi.io/departures/Flightdata");
-                const res = await axios.get("https://b4a042cf-25ec-4e21-abb8-a67f5191582c.mock.pstmn.io/departures"); //postman test api
+                const res = await axios.get("https://b4a042cf-25ec-4e21-abb8-a67f5191582c.mock.pstmn.io/departuress"); //postman test api
                 allDepartures.value = res.data.allDepartures;
                 // console.log(res.data)
 
