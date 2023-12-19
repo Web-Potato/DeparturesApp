@@ -18,9 +18,7 @@ import FlightStatusForm from "./components/FlightStatusForm.vue"
           <Fallback />
         </template>
       </Suspense>
-      
-
-      <!-- <FlightStatusForm /> -->
+      <FlightStatusForm />
     </div>
   </main>
 </template>

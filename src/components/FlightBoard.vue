@@ -1,47 +1,22 @@
 <script setup>
 import FlightCard from "./FlightCard.vue"
-import axios from "axios"
-import { ref } from "vue"
+import { onMounted } from "vue";
+import useFlightData from "../composables/useFlightData"
+const { allDepartures, fetchData, loading, error } = useFlightData();
 
-const allDepartures = ref([])
-const isDataLoaded = ref(false)
+onMounted(() => {
+  fetchData();
+});
 
-// const res = await axios.get("https://6315ae3e5b85ba9b11e4cb85.mockapi.io/departures/Flightdata");
-const res = await axios.get("https://b4a042cf-25ec-4e21-abb8-a67f5191582c.mock.pstmn.io/departures"); //postman test api
-allDepartures.value = res.data.allDepartures;
-// console.log(res.data)
+
 
 // Function to convert time
-const formatTime = (timeString) => {
-  const date = new Date(timeString);
+const formatTime = (time) => {
+  const date = new Date(time);
   const hours = date.getHours().toString().padStart(2, '0');
   const minutes = date.getMinutes().toString().padStart(2, '0');
   return `${hours}.${minutes}`;
 };
-
-// Function to determine the border color based on status
-const getBorderColor = (status) => {
-    if (status.includes("Departed")) {
-        return "#d67b27";
-    } else if (status.includes("Go to Gate")) {
-        return "#3677f5";
-    } else if (status.includes("Wait in Lounge")) {
-        return "#1ea945";
-    } else if (status.includes("Final Call")) {
-        return "#ea1e1e";
-    } else if (status.includes("Scheduled") || status.includes("Departing at")) {
-        return "#f5d836";
-    } else {
-        return "#cecaca";
-    }
-};
-
-allDepartures.value = res.data.allDepartures.map(flight => ({
-    ...flight,
-    borderColor: getBorderColor(flight.status)
-}));
-
-
 
 </script>
 
@@ -56,7 +31,6 @@ allDepartures.value = res.data.allDepartures.map(flight => ({
             <p>Gate</p>
             <p>Status</p>
         </div>
-        <div :class="{ 'animate-items': isDataLoaded }">
         
         <FlightCard 
             v-for="flight in allDepartures" 
@@ -69,7 +43,6 @@ allDepartures.value = res.data.allDepartures.map(flight => ({
             :status="flight.status"
             :borderColor="flight.borderColor"
         />
-        </div>
     </div>
 
 </template>
@@ -150,8 +123,4 @@ allDepartures.value = res.data.allDepartures.map(flight => ({
             font-size: 1.2rem;
           }
     }
-
-    /* Transition for Cards */
-
-
 </style>
