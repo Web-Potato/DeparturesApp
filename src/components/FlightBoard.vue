@@ -1,8 +1,7 @@
 <script setup>
 import FlightCard from "./FlightCard.vue"
 import { defineProps, defineEmits } from "vue";
-// import useFlightData from "../composables/useFlightData"
-// const { allDepartures, fetchData, loading, error } = useFlightData();
+
 const emits = defineEmits(['error']);
 
 //defining prop from App.vue with allDepartures

@@ -8,8 +8,7 @@ const { time, city, code, airline, gate, status, borderColor} = defineProps([
     'airline',
     'gate',
     'status',
-    'borderColor',
-    'data-index'
+    'borderColor'
 ])
 
 </script>

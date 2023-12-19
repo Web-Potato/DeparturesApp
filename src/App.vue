@@ -14,20 +14,32 @@ const selectedFlightNumber = ref('');
 const handleFormSubmit = () => {
   updateFlightStatus(selectedFlightNumber.value, selectedStatus.value);
 };
-  //to mount data
-  onMounted(async () => {
+
+// end of manually changed status
+const hasError = ref(false);
+const errorMessage = ref("");
+
+// new state for tracking loading status
+const isLoading = ref(false); 
+
+// for simulation of delay in data fetching
+// const delay = ms => new Promise(resolve => setTimeout(resolve, ms)); //to remove later - just for testing
+
+onMounted(async () => {
+  isLoading.value = true;  // Start loading
+  console.log("before fetching data isLoading is:", isLoading.value)
   try {
+    // await delay(3000); // fake 3 sec delay (to remove)
     await fetchData();
   } catch (error) {
     console.error(error);
     hasError.value = true;
     errorMessage.value = error.message || "An unknown error occurred";
+  } finally {
+    isLoading.value = false;  // Stop loading
+    console.log("after fetching data isLoading is:", isLoading.value)
   }
 });
-
-// end of manually changed status
-const hasError = ref(false);
-const errorMessage = ref("");
 
 const handleError = (error) => {
   console.error(error);
@@ -44,21 +56,14 @@ const selectedStatus = ref('');
   <main>
     <div class="container">
       <Sign />
-      <Suspense>
-        <template #default>
-          <!-- passing allDepartures as a prop to FlightBoard / if error occurs while data is loaded from API, it trigger error handler -->
-          <FlightBoard :all-departures="allDepartures" @error="handleError"/>
-        </template>
-        <template #fallback>
-          <!-- Fallback component shows while data is being fetched -->
-          <Fallback />
-        </template>
-      </Suspense>
-      <!-- Show error component if error occurs, error message passed as a prop to component -->
+        <!-- Fallback component shows while isLoading is true -->
+      <Fallback v-if="isLoading"/>
+        <!-- only show FlightBoard if its not loading and no errors // passing allDepartures as a prop to FlightBoard // if error occurs while data is loaded from API, it triggers error handler -->
+      <FlightBoard v-if="!isLoading && !hasError" :all-departures="allDepartures" @error="handleError"/>
+        <!-- Show error component if error occurs, error message passed as a prop to component -->
       <Error v-if="hasError" :message="errorMessage"/>
-      <!-- <FlightStatusForm /> -->
+        <!-- <FlightStatusForm /> -->
       <div class="form-container">
-        
         <form @submit.prevent="handleFormSubmit">
           <h2>Flight Status Form</h2>
           <div class="flight-select">
@@ -81,19 +86,19 @@ const selectedStatus = ref('');
               </div>
               <div class="form-radio-input">
                 <label for="departed">Departed</label>
-                <input type="radio" name="status-change" id="departed" value="departed" v-model="selectedStatus">
+                <input type="radio" name="status-change" id="departed" value="Departed" v-model="selectedStatus">
               </div>
               <div class="form-radio-input">
                 <label for="diverted">Diverted</label>
-                <input type="radio" name="status-change" id="diverted" value="diverted" v-model="selectedStatus">
+                <input type="radio" name="status-change" id="diverted" value="Diverted" v-model="selectedStatus">
               </div>
               <div class="form-radio-input">
                 <label for="delayed">Delayed</label>
-                <input type="radio" name="status-change" id="delayed" value="delayed" v-model="selectedStatus">
+                <input type="radio" name="status-change" id="delayed" value="Delayed" v-model="selectedStatus">
               </div>
               <div class="form-radio-input">
                 <label for="cancelled">Cancelled</label>
-                <input type="radio" name="status-change" id="cancelled" value="cancelled" v-model="selectedStatus">
+                <input type="radio" name="status-change" id="cancelled" value="Cancelled" v-model="selectedStatus">
               </div>
             </div>
             <div class="status-text-input">
