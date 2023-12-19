@@ -9,10 +9,13 @@ import Error from "./components/Error.vue"
 //for manually changed status
 import useFlightData from "./composables/useFlightData"
 const { fetchData, updateFlightStatus, allDepartures } = useFlightData();
-const selectedFlightNumber = ref('');
+const selectedFlightNumber = ref("");
+
+const freeTextInput = ref("")
 
 const handleFormSubmit = () => {
-  updateFlightStatus(selectedFlightNumber.value, selectedStatus.value);
+  let statusToUpdate = selectedStatus.value === 'free-text' ? freeTextInput.value : selectedStatus.value;
+  updateFlightStatus(selectedFlightNumber.value, statusToUpdate);
 };
 
 // end of manually changed status
@@ -102,7 +105,7 @@ const selectedStatus = ref('');
               </div>
             </div>
             <div class="status-text-input">
-              <input type="text" id="free-text-input" :disabled="selectedStatus !== 'free-text'">
+              <input type="text" id="free-text-input" v-model="freeTextInput" :disabled="selectedStatus !== 'free-text'">
             </div>
           </div>
           <button>Apply Changes</button>
