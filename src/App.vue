@@ -147,6 +147,7 @@ const handleError = (error) => {
   margin-bottom: 50px;
   padding: 20px;
   background-color: #fff;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 15px -2px, rgba(0, 0, 0, 0.2) 0px 3px 4px 1px;
 }
 
 .flight-select {
