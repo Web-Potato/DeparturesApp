@@ -1,7 +1,6 @@
 import './assets/main.css'
 
 import { createApp } from 'vue'
-import { createPinia } from 'pinia'
 import App from './App.vue'
 
 
@@ -24,6 +23,5 @@ app.config.globalProperties.$formatTime = (time) => {
         return `${hours}.${minutes}`;
 };
 
-app.use(createPinia())
 
 app.mount('#app')
