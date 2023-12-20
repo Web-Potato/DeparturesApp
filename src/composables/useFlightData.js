@@ -12,8 +12,8 @@ export default function useFlightData() {
             try {
                 loading.value = true;
 
-                // const res = await axios.get("https://6315ae3e5b85ba9b11e4cb85.mockapi.io/departures/Flightdata"); // api from task
-                const res = await axios.get("https://b4a042cf-25ec-4e21-abb8-a67f5191582c.mock.pstmn.io/departures"); //postman test api
+                const res = await axios.get("https://6315ae3e5b85ba9b11e4cb85.mockapi.io/departures/Flightdata"); // api from task
+                // const res = await axios.get("https://b4a042cf-25ec-4e21-abb8-a67f5191582c.mock.pstmn.io/departures"); //postman test api
                 allDepartures.value = res.data.allDepartures;
                 console.log(res.data)
 
@@ -53,7 +53,7 @@ export default function useFlightData() {
             return "#52D3D8";
         }
     };
-
+    //for updating status by user through form 
     const updateFlightStatus = (flightNumber, newStatus) => {
         console.log('Updating status for:', flightNumber, 'to', newStatus);
         const flightIndex = allDepartures.value.findIndex(flight => flight.flightNumber === flightNumber);

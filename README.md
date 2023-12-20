@@ -1,6 +1,10 @@
 # DeparturesApp
 
-DeparturesApp is a Vue.js-based application designed to show real-time departure information, making it easier for users to track flight statuses, times, and other details.
+
+## About
+DeparturesApp is a Vue.js-based application designed to show real-time departure information. Its primary goal is to assist users in tracking flight statuses, including times and other relevant details, using a responsive and intuitive interface.
+
+The app's functionality is centered around displaying flight departures in real-time, with features such as status highlighting and status editing to enhance user interaction and experience. This allows users to not only view flight details but also to interact with the data, such as updating flight statuses. The responsive design ensures that the app is accessible across various devices, catering to a broad range of users.
 
 ## Customize configuration
 
