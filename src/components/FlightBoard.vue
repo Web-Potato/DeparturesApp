@@ -1,6 +1,6 @@
 <script setup>
 import FlightCard from "./FlightCard.vue"
-import { defineProps, defineEmits } from "vue";
+import { ref, defineProps, defineEmits, onMounted, onUnmounted } from "vue";
 
 const emits = defineEmits(['error']);
 
@@ -24,15 +24,37 @@ const formatTime = (time) => {
   return `${hours}.${minutes}`;
 };
 
+// for changing of labels
+
+const label1 = ref("Airline");
+const label2 = ref("City Name");
+
+let intervalId1;
+let intervalId2;
+
+onMounted(() => {
+    intervalId1 = setInterval (() => {
+        label1.value = label1.value === "Airline" ? "Flight Number" : "Airline";
+    }, 3000);
+    intervalId2 = setInterval (() => {
+        label2.value = label2.value === "City Name" ? "Country" : "City Name";
+    }, 3000);
+});
+
+onUnmounted(() => {
+    clearInterval(intervalId1);
+    clearInterval(intervalId2);
+})
+
 </script>
 
 <template>
     <div class="board-container">
         <div class="table-header">
             <p>Departure time</p>
-            <p>City Name</p>
+            <p :src="label2">{{ label2 }}</p>
             <p>Code</p>
-            <p>Airline</p>
+            <p :src="label1">{{ label1 }}</p>
             <p>Gate</p>
             <p>Status</p>
         </div>
@@ -43,10 +65,12 @@ const formatTime = (time) => {
                 :key="flight.flightNumber"
                 :time="formatTime(flight.scheduledDepartureDateTime)"
                 :city="flight.arrivalAirport.cityName"
+                :country="flight.arrivalAirport.countryName"
                 :code="flight.arrivalAirport.code"
                 :airline="flight.airline.name"
                 :gate="flight.departureGate ? flight.departureGate.number : 'N/A'"
                 :status="flight.status"
+                :flightNumber="flight.flightNumber"
                 :borderColor="flight.borderColor"
             />
         </div>

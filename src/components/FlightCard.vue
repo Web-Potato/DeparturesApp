@@ -1,15 +1,37 @@
 <script setup>
-import { defineProps } from "vue"
+import { defineProps, ref, onMounted, onUnmounted } from "vue"
 
-const { time, city, code, airline, gate, status, borderColor} = defineProps([
+const { time, city, country, code, airline, gate, status, borderColor, flightNumber} = defineProps([
     'time',
     'city',
+    'country',
     'code',
     'airline',
     'gate',
     'status',
-    'borderColor'
+    'borderColor',
+    'flightNumber'
 ])
+
+const label1 = ref(airline);
+const label2 = ref(city);
+
+let intervalId1;
+let intervalId2;
+
+onMounted(() => {
+    intervalId1 = setInterval (() => {
+        label1.value = label1.value === airline ? flightNumber : airline;
+    }, 3000);
+    intervalId2 = setInterval (() => {
+        label2.value = label2.value === city ? country : city;
+    }, 3000);
+});
+
+onUnmounted(() => {
+    clearInterval(intervalId1);
+    clearInterval(intervalId2);
+})
 
 </script>
 
@@ -18,9 +40,9 @@ const { time, city, code, airline, gate, status, borderColor} = defineProps([
     <div class="card-container">
         <div class="card">
             <p class="p1" :src="time">{{ time }}</p>
-            <p class="p2" :src="city">{{ city}}</p>
+            <p class="p2" :src="city">{{ label2}}</p>
             <p class="p1" :src="code">{{ code }}</p>
-            <p class="p1" :src="airline">{{ airline }}</p>
+            <p class="p1" :src="airline">{{ label1 }}</p>
             <p class="p2" :src="gate">{{ gate }}</p>
             <div class="status" :src="status">
                 <div class="status-text" :style="{ 'borderLeftColor': borderColor }">
