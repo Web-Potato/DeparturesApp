@@ -8,9 +8,10 @@ See [Vite Configuration Reference](https://vitejs.dev/config/).
 
 ## Features
 
-**Real-Time Flight Information**: Displays up-to-date departure details.
-**Responsive Design**: Adapts seamlessly to various screen sizes.
-**Status Highlighting**: Color-codes flights based on their status for easy identification.
+**Real-Time Flight Information**: Displays up-to-date departure details.  
+**Responsive Design**: Adapts seamlessly to various screen sizes.  
+**Status Highlighting**: Color-codes flights based on their status for easy identification.  
+**Status Editing**: Editing of Flight Status with form with option to add free text
 
 ## Project Setup
 
@@ -30,8 +31,15 @@ npm run dev
 npm run build
 ```
 
+### Running Unit Tests with Vitest
+
+```sh
+npm run test
+```
+
 ## Dependencies
 
-**Vue 3** Progressive JavaScript framework for building user interfaces.
-**Naive UI** Vue 3 component library
-**Axios** Promise-based HTTP client for making HTTP requests.
+**Vue 3** Progressive JavaScript framework for building user interfaces.  
+**Naive UI** Vue 3 component library  
+**Axios** Promise-based HTTP client for making HTTP requests.  
+**Vitest** For unit testing
