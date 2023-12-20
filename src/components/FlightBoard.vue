@@ -9,21 +9,6 @@ const props = defineProps({
   allDepartures: Array
 });
 
-//If error exists its emitted to the App.vue
-// await fetchData().catch(e => {
-//     emits('error', e);
-// });
-
-
-
-// Function to convert time
-const formatTime = (time) => {
-  const date = new Date(time);
-  const hours = date.getHours().toString().padStart(2, '0');
-  const minutes = date.getMinutes().toString().padStart(2, '0');
-  return `${hours}.${minutes}`;
-};
-
 // for changing of labels
 
 const label1 = ref("Airline");
@@ -63,7 +48,7 @@ onUnmounted(() => {
             <FlightCard 
                 v-for="flight in props.allDepartures" 
                 :key="flight.flightNumber"
-                :time="formatTime(flight.scheduledDepartureDateTime)"
+                :time="$formatTime(flight.scheduledDepartureDateTime)"
                 :city="flight.arrivalAirport.cityName"
                 :country="flight.arrivalAirport.countryName"
                 :code="flight.arrivalAirport.code"

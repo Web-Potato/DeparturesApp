@@ -74,7 +74,7 @@ const selectedStatus = ref('');
               <select name="flight-selection" id="flight-selection" v-model="selectedFlightNumber">
                   <option value="">select a flight</option>
                   <option v-for="flight in allDepartures" :key="flight.flightNumber" :value="flight.flightNumber">
-                    {{ flight.flightNumber }}
+                    {{ $formatTime(flight.scheduledDepartureDateTime) }} - {{ flight.flightNumber }} - {{ flight.airline.name }} 
                   </option>
                   <option></option>
               </select>
