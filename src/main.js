@@ -4,7 +4,17 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import App from './App.vue'
 
+
+import { NButton, NRadioGroup, NRadio, NSelect, NInput } from 'naive-ui'
+
 const app = createApp(App)
+
+// for global registration of Naive UI components 
+app.component('NButton', NButton);
+app.component('NRadioGroup', NRadioGroup);
+app.component('NRadio', NRadio);
+app.component('NSelect', NSelect);
+app.component('NInput', NInput);
 
  // Function to convert time
 app.config.globalProperties.$formatTime = (time) => {

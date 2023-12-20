@@ -1,36 +1,55 @@
 <script setup>
-import { ref, onMounted } from "vue";
-import Sign from "./components/Sign.vue"
-import FlightBoard from "./components/FlightBoard.vue"
-import Fallback from "./components/Fallback.vue"
-// import FlightStatusForm from "./components/FlightStatusForm.vue"
-import Error from "./components/Error.vue"
+import { ref, computed, onMounted, getCurrentInstance } from 'vue';
+import Sign from './components/Sign.vue';
+import FlightBoard from './components/FlightBoard.vue';
+import Fallback from './components/Fallback.vue';
+import Error from './components/Error.vue';
+import { NSelect, NRadioGroup, NRadioButton, NInput, NButton } from 'naive-ui';
 
-//for manually changed status
-import useFlightData from "./composables/useFlightData"
+//for manual status change with form
+import useFlightData from './composables/useFlightData';
 const { fetchData, updateFlightStatus, allDepartures } = useFlightData();
-const selectedFlightNumber = ref("");
+const selectedFlightNumber = ref('');
+const freeTextInput = ref('');
+const selectedStatus = ref('');
+const instance = getCurrentInstance();
 
-const freeTextInput = ref("")
+const formattedFlights = computed(() => allDepartures.value.map(flight => ({
+  label: `${instance.appContext.config.globalProperties.$formatTime(flight.scheduledDepartureDateTime)} - ${flight.flightNumber} - ${flight.airline.name}`,
+  value: flight.flightNumber
+})));
+
+// state for error message from the form
+const formError = ref('');
 
 const handleFormSubmit = () => {
-  let statusToUpdate = selectedStatus.value === 'free-text' ? freeTextInput.value : selectedStatus.value;
-  updateFlightStatus(selectedFlightNumber.value, statusToUpdate);
+  formError.value = ''; // Reset the error message
+
+  console.log('Form submitted with:', selectedFlightNumber.value, selectedStatus.value, freeTextInput.value);
+  if (!selectedFlightNumber.value && !selectedStatus.value) {
+    formError.value = 'Please select a Flight and a Status';
+  } else if (!selectedFlightNumber.value) {
+    formError.value = 'Please select a Flight';
+  } else if (!selectedStatus.value) {
+    formError.value = 'Please select a Status';
+  } else {
+    let statusToUpdate = selectedStatus.value === 'free-text' ? freeTextInput.value : selectedStatus.value;
+    updateFlightStatus(selectedFlightNumber.value, statusToUpdate);
+  }
 };
+//end of manual status change via form
 
-// end of manually changed status
+//states for error handling
 const hasError = ref(false);
-const errorMessage = ref("");
-
+const errorMessage = ref('');
 // new state for tracking loading status
-const isLoading = ref(false); 
+const isLoading = ref(false);
 
 // for simulation of delay in data fetching
 // const delay = ms => new Promise(resolve => setTimeout(resolve, ms)); //to remove later - just for testing
 
 onMounted(async () => {
   isLoading.value = true;  // Start loading
-  console.log("before fetching data isLoading is:", isLoading.value)
   try {
     // await delay(3000); // fake 3 sec delay (to remove)
     await fetchData();
@@ -40,19 +59,14 @@ onMounted(async () => {
     errorMessage.value = error.message || "An unknown error occurred";
   } finally {
     isLoading.value = false;  // Stop loading
-    console.log("after fetching data isLoading is:", isLoading.value)
   }
 });
 
 const handleError = (error) => {
   console.error(error);
   hasError.value = true;
-  errorMessage.value = error.message || "An unknown error occurred"; // Storing the error message
+  errorMessage.value = error.message || 'An unknown error occurred';
 };
-
-// for the form
-const selectedStatus = ref('');
-
 </script>
 
 <template>
@@ -65,52 +79,37 @@ const selectedStatus = ref('');
       <FlightBoard v-if="!isLoading && !hasError" :all-departures="allDepartures" @error="handleError"/>
         <!-- Show error component if error occurs, error message passed as a prop to component -->
       <Error v-if="hasError" :message="errorMessage"/>
-        <!-- <FlightStatusForm /> -->
-      <div class="form-container">
-        <form @submit.prevent="handleFormSubmit">
+        <form @submit.prevent="handleFormSubmit" class="form-container">
           <h2>Flight Status Form</h2>
-          <div class="flight-select">
-
-              <select name="flight-selection" id="flight-selection" v-model="selectedFlightNumber">
-                  <option value="">select a flight</option>
-                  <option v-for="flight in allDepartures" :key="flight.flightNumber" :value="flight.flightNumber">
-                    {{ $formatTime(flight.scheduledDepartureDateTime) }} - {{ flight.flightNumber }} - {{ flight.airline.name }} 
-                  </option>
-                  <option></option>
-              </select>
-
-          </div>
+          <!-- Select for Flight Selection -->
+          <n-select 
+            v-model:value="selectedFlightNumber"
+            :options="formattedFlights"
+            placeholder="Select a flight"
+            class="flight-select"
+          />
+  
           <div class="form-radio">
-            <h2>Edit Flight Details</h2>
-            <div class="radio-container">
-              <div class="form-radio-input">
-                <label for="free-text">Free Text</label>
-                <input type="radio" name="status-change" id="free-text" value="free-text" v-model="selectedStatus">
-              </div>
-              <div class="form-radio-input">
-                <label for="departed">Departed</label>
-                <input type="radio" name="status-change" id="departed" value="Departed" v-model="selectedStatus">
-              </div>
-              <div class="form-radio-input">
-                <label for="diverted">Diverted</label>
-                <input type="radio" name="status-change" id="diverted" value="Diverted" v-model="selectedStatus">
-              </div>
-              <div class="form-radio-input">
-                <label for="delayed">Delayed</label>
-                <input type="radio" name="status-change" id="delayed" value="Delayed" v-model="selectedStatus">
-              </div>
-              <div class="form-radio-input">
-                <label for="cancelled">Cancelled</label>
-                <input type="radio" name="status-change" id="cancelled" value="Cancelled" v-model="selectedStatus">
-              </div>
-            </div>
-            <div class="status-text-input">
-              <input type="text" id="free-text-input" v-model="freeTextInput" :disabled="selectedStatus !== 'free-text'">
-            </div>
+            <h3>Select Flight Status</h3>
+            <n-radio-group v-model:value="selectedStatus" class="radio-container">
+              <n-radio-button label="Departed" value="Departed" />
+              <n-radio-button label="Diverted" value="Diverted" />
+              <n-radio-button label="Delayed" value="Delayed" />
+              <n-radio-button label="Cancelled" value="Cancelled" />
+              <n-radio-button label="Free Text" value="free-text" />
+            </n-radio-group>
+          
+            <n-input 
+              v-if="selectedStatus === 'free-text'"
+              v-model:value="freeTextInput"
+              placeholder="Enter text"
+              maxlength="30"
+              class="status-text-input"
+            />
+            <div v-if="formError" class="error-message">{{ formError }}</div>
           </div>
-          <button>Apply Changes</button>
+          <n-button type="primary" @click="handleFormSubmit">Apply Status</n-button>
         </form>
-      </div>
     </div>
   </main>
 </template>
@@ -136,57 +135,53 @@ const selectedStatus = ref('');
   }
 }
 
-@media (max-width: 1200px) { 
-  /* styles here */
-}
-
 /* form styles*/
 .form-container {
-  width: 70%;
-  height: 400px;
-  border: 1px solid #000;
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+
+  border: 2px solid #636262;
+  border-radius: 5px;
   margin-top: 50px;
   margin-bottom: 50px;
   padding: 20px;
+  background-color: #fff;
 }
 
 .flight-select {
   margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  width: 50%;
-  border-radius: 5px;
-  padding: 10px;
-}
-
-select {
-  width: 100%;
-  height: 30px;
 }
 
 .form-radio {
   margin-top: 20px;
-  margin-left: 20px;
+  margin-bottom: 20px;
 }
-
 .radio-container {
   display: flex;
   flex-direction: row;
+  justify-content: center;
 }
-
 .radio-container div {
-  margin-right: 20px;
-}
-
-input[type="radio"] {
-  margin-left: 10px;
+  margin-top: 10px
 }
 .status-text-input{
   margin-top: 20px;
 }
-.status-text-input input {
-  width: 400px;
-  padding: 10px
+
+form button {
+  padding: 10px;
+  font-weight: 600;
+  background-color: #636262;
+  color: #fff;
+  border: 1px solid;
+  border-radius: 5px;
+}
+
+.error-message {
+  text-align: center;
+  margin-top: 20px;
+  font-weight: bold;
+  color: #c00000;
 }
 </style>

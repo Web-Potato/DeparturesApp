@@ -54,16 +54,18 @@ export default function useFlightData() {
         }
     };
 
-    // for changing status manually
     const updateFlightStatus = (flightNumber, newStatus) => {
+        console.log('Updating status for:', flightNumber, 'to', newStatus);
         const flightIndex = allDepartures.value.findIndex(flight => flight.flightNumber === flightNumber);
         if (flightIndex !== -1) {
-            allDepartures.value[flightIndex].status = newStatus;
-            allDepartures.value[flightIndex].borderColor = getBorderColor(newStatus);
+          allDepartures.value[flightIndex].status = newStatus;
+          allDepartures.value[flightIndex].borderColor = getBorderColor(newStatus);
+          console.log('Updated flight:', allDepartures.value[flightIndex]);
+        } else {
+          // for when flight is not found
+          console.error('Flight not found');
         }
-    };
-
-    // end of changing status manually
+      };
 
     return {
         allDepartures,

@@ -29,3 +29,9 @@ npm run dev
 ```sh
 npm run build
 ```
+
+## Dependencies
+
+**Vue 3** Progressive JavaScript framework for building user interfaces.
+**Naive UI** Vue 3 component library
+**Axios** Promise-based HTTP client for making HTTP requests.

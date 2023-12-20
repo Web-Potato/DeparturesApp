@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, ref, onMounted, onUnmounted } from "vue"
+import { defineProps, ref, onMounted, onUnmounted, computed } from "vue"
 
 const { time, city, country, code, airline, gate, status, borderColor, flightNumber} = defineProps([
     'time',
@@ -13,6 +13,7 @@ const { time, city, country, code, airline, gate, status, borderColor, flightNum
     'flightNumber'
 ])
 
+// initial state for Airline and City in a card, that will change with interval 
 const label1 = ref(airline);
 const label2 = ref(city);
 
