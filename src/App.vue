@@ -14,6 +14,7 @@ const freeTextInput = ref('');
 const selectedStatus = ref('');
 const instance = getCurrentInstance();
 
+// formats data for select options in the form
 const formattedFlights = computed(() => allDepartures.value.map(flight => ({
   label: `${instance.appContext.config.globalProperties.$formatTime(flight.scheduledDepartureDateTime)} - ${flight.flightNumber} - ${flight.airline.name}`,
   value: flight.flightNumber
@@ -24,7 +25,7 @@ const formError = ref('');
 //state for status update message
 const formSuccess = ref('');
 
-
+// submit handler for a form that show messages to user
 const handleFormSubmit = () => {
   formError.value = ''; 
   if (!selectedFlightNumber.value && !selectedStatus.value) {
@@ -56,7 +57,7 @@ const errorMessage = ref('');
 const isLoading = ref(false);
 
 // for simulation of delay in data fetching
-// const delay = ms => new Promise(resolve => setTimeout(resolve, ms)); //to remove later - just for testing
+// const delay = ms => new Promise(resolve => setTimeout(resolve, ms)); // just for testing
 
 onMounted(async () => {
   isLoading.value = true;  // Start loading

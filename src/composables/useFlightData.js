@@ -6,7 +6,7 @@ export default function useFlightData() {
     const allDepartures = ref([]);
     const loading = ref(false);
     const error = ref(null);
-    
+    //data fetching from API 
     const fetchData = async() => {
         return new Promise(async (resolve, reject) => {
             try {
@@ -58,7 +58,7 @@ export default function useFlightData() {
 
     //for updating status by user through form 
     const updateFlightStatus = (flightNumber, newStatus, onSuccess) => {
-        console.log('Updating status for:', flightNumber, 'to', newStatus);
+        // console.log('Updating status for:', flightNumber, 'to', newStatus); // for checking updates to status
         const flightIndex = allDepartures.value.findIndex(flight => flight.flightNumber === flightNumber);
         if (flightIndex !== -1) {
           allDepartures.value[flightIndex].status = newStatus;

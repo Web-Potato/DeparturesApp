@@ -10,13 +10,13 @@ const props = defineProps({
 });
 
 // for changing of labels
-
 const label1 = ref("Airline");
 const label2 = ref("City Name");
 
 let intervalId1;
 let intervalId2;
 
+// sets intervals for displaying information on the board
 onMounted(() => {
     intervalId1 = setInterval (() => {
         label1.value = label1.value === "Airline" ? "Flight Number" : "Airline";
@@ -26,6 +26,7 @@ onMounted(() => {
     }, 3000);
 });
 
+//removes above intervals
 onUnmounted(() => {
     clearInterval(intervalId1);
     clearInterval(intervalId2);

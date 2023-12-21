@@ -20,6 +20,7 @@ const label2 = ref(city);
 let intervalId1;
 let intervalId2;
 
+// sets intervals for displaying information on cards
 onMounted(() => {
     intervalId1 = setInterval (() => {
         label1.value = label1.value === airline ? flightNumber : airline;
@@ -28,7 +29,7 @@ onMounted(() => {
         label2.value = label2.value === city ? country : city;
     }, 3000);
 });
-
+// removes above intervals
 onUnmounted(() => {
     clearInterval(intervalId1);
     clearInterval(intervalId2);
