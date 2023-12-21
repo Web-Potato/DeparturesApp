@@ -41,6 +41,15 @@ npm run build
 npm run test
 ```
 
+### Running the App
+
+Repository needs to be cloned and stored on the local machine. After installation in root folder of the app type  
+```sh
+npm run dev
+```  
+Then go to your browser and start local browser and use localhost:{port number} address like "http://localhost:5173/" (in my case Vue sets the port for 5173)
+
+
 ## Dependencies
 
 **Vue 3** Progressive JavaScript framework for building user interfaces.  
@@ -78,8 +87,15 @@ npm run test
 
 ## What would I do next?
 
+* Move logic from App.vue and split form in to separate component  
 * Add feature to remove cards with flight information manually and animate removal  
-* Add refreshing of data fetching for every 60/30seconds. This would make checks for any manually changed flight to be left and data from API to be ignored if status of that flight was not changed in most recent call.  
+* Add refreshing of data fetching for every 60/30seconds. This would make checks for any manually changed flight to be left and data from API to be ignored if status of that flight was not changed in most recent call. 
+* Use Pinia for store of states
 * Add more flair to the overall presentation.
 
 
+## Final words
+
+I'm still learning working with Vue but since I started I noticed how great and enjoyable it is. It was a great project to work on and a valuable lesson in itself. It helped me discover more new things and motivate me to learn even more.  
+
+I used CSS for styling of the flight board and card components mostly because it gives me more control. I used Naive UI for elements in the form as those are easily kept with the same theme and save time when changing tricky parts like select and radio inputs.
