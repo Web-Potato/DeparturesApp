@@ -57,13 +57,15 @@ export default function useFlightData() {
     };
 
     //for updating status by user through form 
-    const updateFlightStatus = (flightNumber, newStatus) => {
+    const updateFlightStatus = (flightNumber, newStatus, onSuccess) => {
         console.log('Updating status for:', flightNumber, 'to', newStatus);
         const flightIndex = allDepartures.value.findIndex(flight => flight.flightNumber === flightNumber);
         if (flightIndex !== -1) {
           allDepartures.value[flightIndex].status = newStatus;
           allDepartures.value[flightIndex].borderColor = getBorderColor(newStatus);
           console.log('Updated flight:', allDepartures.value[flightIndex]);
+          //for triggering success message
+          onSuccess();
         } else {
           // for when flight is not found
           console.error('Flight not found');

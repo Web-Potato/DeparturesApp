@@ -21,11 +21,12 @@ const formattedFlights = computed(() => allDepartures.value.map(flight => ({
 
 // state for error message from the form
 const formError = ref('');
+//state for status update message
+const formSuccess = ref('');
+
 
 const handleFormSubmit = () => {
-  formError.value = ''; // Reset the error message
-
-  console.log('Form submitted with:', selectedFlightNumber.value, selectedStatus.value, freeTextInput.value);
+  formError.value = ''; 
   if (!selectedFlightNumber.value && !selectedStatus.value) {
     formError.value = 'Please select a Flight and a Status';
   } else if (!selectedFlightNumber.value) {
@@ -34,9 +35,13 @@ const handleFormSubmit = () => {
     formError.value = 'Please select a Status';
   } else {
     let statusToUpdate = selectedStatus.value === 'free-text' ? freeTextInput.value : selectedStatus.value;
-    updateFlightStatus(selectedFlightNumber.value, statusToUpdate);
+    updateFlightStatus(selectedFlightNumber.value, statusToUpdate, () => {
+      formSuccess.value = `Status updated successfully for flight ${selectedFlightNumber.value}`;
+    });
   }
 };
+
+
 //end of manual status change via form
 
 //states for error handling
@@ -107,6 +112,8 @@ const handleError = (error) => {
               class="status-text-input"
             />
             <div v-if="formError" class="error-message">{{ formError }}</div>
+            <div v-if="formSuccess" class="success-message">{{ formSuccess }}</div>
+
           </div>
           <n-button type="primary" @click="handleFormSubmit">Apply Status</n-button>
         </form>
@@ -183,6 +190,12 @@ form button {
   text-align: center;
   margin-top: 20px;
   font-weight: bold;
-  color: #c00000;
+  color: #C00000;
+}
+.success-message {
+  text-align: center;
+  margin-top: 20px;
+  font-weight: bold;
+  color: #36AD6A;
 }
 </style>
