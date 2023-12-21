@@ -33,26 +33,29 @@ export default function useFlightData() {
         });
     };
 
+    //object containing border colours for various statuses
+    const statusBorderColour = {
+        "Departed": "#D67B27",
+        "Go to Gate": "#3677F5",
+        "Wait in Lounge": "#1EA945",
+        "Final Call": "#EA1E1E",
+        "Cancelled": "#CECACA",
+        "Scheduled": "#F5D836",
+        "Departing at": "#F5D836",
+        "Delayed": "#5F0F40",
+        "Diverted": "#5F0F40"
+    };
+
     // Function to determine the border colour based on allDepartures.status
     const getBorderColor = (status) => {
-        if (status.includes("Departed")) {
-            return "#D67B27";
-        } else if (status.includes("Go to Gate")) {
-            return "#3677F5";
-        } else if (status.includes("Wait in Lounge")) {
-            return "#1EA945";
-        } else if (status.includes("Final Call")) {
-            return "#EA1E1E";
-        } else if (status.includes("Cancelled")) {
-            return "#CECACA";
-        } else if (status.includes("Scheduled") || status.includes("Departing at")) {
-            return "#F5D836";
-        } else if (status.includes("Delayed") || status.includes("Diverted")) {
-            return "#5F0F40";
-        } else {
-            return "#52D3D8";
+        for (let key in statusBorderColour) {
+            if (status.includes(key)) {
+                return statusBorderColour[key];
+            }
         }
+        return "#52D3D8";
     };
+
     //for updating status by user through form 
     const updateFlightStatus = (flightNumber, newStatus) => {
         console.log('Updating status for:', flightNumber, 'to', newStatus);
