@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, getCurrentInstance } from 'vue';
+import { ref, computed, onMounted, getCurrentInstance, watch } from 'vue';
 import Sign from './components/Sign.vue';
 import FlightBoard from './components/FlightBoard.vue';
 import Fallback from './components/Fallback.vue';
@@ -41,6 +41,11 @@ const handleFormSubmit = () => {
   }
 };
 
+//watcher that resets error/success messages
+watch(selectedFlightNumber, () => {
+  formError.value = '';
+  formSuccess.value = '';
+});
 
 //end of manual status change via form
 
