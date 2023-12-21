@@ -47,3 +47,39 @@ npm run test
 **Naive UI** Vue 3 component library  
 **Axios** Promise-based HTTP client for making HTTP requests.  
 **Vitest** For unit testing
+
+
+### My Solution for the App
+
+* Single page app  
+* Uses Vue3  
+* Supports major browsers (Chrome, Safari, Firefox, Edge)  
+* Is responsive  
+* Has Partial test coverage with Unit Tests  
+* Error handling - if API call fails that sends message on screen to the user  
+* Includes form that allows for status changing by user  
+
+
+### Additional Features
+
+* Board uses interval to show City and Country(from arrivalAirport.countryName)  
+* Board uses interval to show Airline and Flight Number (from flightNumber)  
+* Before cards are rendered animated loader is showing on screen, additionally there is a mock delay function included in the code if viewing of the loader is required  
+
+
+### Unit Test Coverage
+
+* FlightBoard - testing of component and data displayed within  
+* FlightCard - testing of data are being sent as props to card component  
+* StatusForm - testing if form is rendering  
+* Fallback - testing if loader is displayed  
+* useFlightData - simulation of successful data fetching
+
+
+## What would I do next?
+
+* Add feature to remove cards with flight information manually and animate removal  
+* Add refreshing of data fetching for every 60/30seconds. This would make checks for any manually changed flight to be left and data from API to be ignored if status of that flight was not changed in most recent call.  
+* Add more flair to the overall presentation.
+
+
